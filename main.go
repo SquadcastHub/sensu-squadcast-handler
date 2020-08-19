@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/sensu-community/sensu-plugin-sdk/sensu"
 	corev2 "github.com/sensu/sensu-go/api/core/v2"
 )
@@ -59,7 +60,10 @@ func main() {
 
 func CheckArgs(_ *corev2.Event) error {
 	if len(plugin.APIURL) == 0 {
-		errors.New("missing Squadcast API URL")
+		return errors.New("missing Squadcast API URL")
+	}
+	if !govalidator.IsURL(plugin.APIURL) {
+		return errors.New("invlaid VictorOps API URL specification")
 	}
 	return nil
 }
