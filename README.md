@@ -1,0 +1,1 @@
+# sensu-squadcast-handler
