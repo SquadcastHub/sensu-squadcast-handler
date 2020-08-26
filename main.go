@@ -63,7 +63,7 @@ func CheckArgs(_ *corev2.Event) error {
 		return errors.New("missing Squadcast API URL")
 	}
 	if !govalidator.IsURL(plugin.APIURL) {
-		return errors.New("invlaid VictorOps API URL specification")
+		return errors.New("invlaid Squadcast API URL specification")
 	}
 	return nil
 }
