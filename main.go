@@ -53,11 +53,7 @@ var (
 	}
 )
 
-func main() {
-	handler := sensu.NewGoHandler(&plugin.PluginConfig, options, CheckArgs, SendSquadcast)
-	handler.Execute()
-}
-
+// CheckArgs validates the configuration passed to the handler
 func CheckArgs(_ *corev2.Event) error {
 	if len(plugin.APIURL) == 0 {
 		return errors.New("missing Squadcast API URL")
@@ -68,7 +64,8 @@ func CheckArgs(_ *corev2.Event) error {
 	return nil
 }
 
-func SendSquadcast(event *corev2.Event) error {
+// SendEventToSquadcast sends the event data to configured Squadcast Webhook endpoint
+func SendEventToSquadcast(event *corev2.Event) error {
 	var msgType string
 
 	switch eventStatus := event.Check.Status; eventStatus {
@@ -104,4 +101,9 @@ func SendSquadcast(event *corev2.Event) error {
 		return fmt.Errorf("POST to %s failed with %v", plugin.APIURL, resp.Status)
 	}
 	return nil
+}
+
+func main() {
+	handler := sensu.NewGoHandler(&plugin.PluginConfig, options, CheckArgs, SendEventToSquadcast)
+	handler.Execute()
 }

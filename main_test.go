@@ -23,7 +23,7 @@ func TestCheckArgs(t *testing.T) {
 	assert.NoError(CheckArgs(event))
 }
 
-func TestSendSquadcast(t *testing.T) {
+func TestSendEventToSquadcast(t *testing.T) {
 	testcases := []struct {
 		status  uint32
 		msgtype string
@@ -55,6 +55,6 @@ func TestSendSquadcast(t *testing.T) {
 		_, err := url.ParseRequestURI(test.URL)
 		require.NoError(t, err)
 		plugin.APIURL = test.URL
-		assert.NoError(SendSquadcast(event))
+		assert.NoError(SendEventToSquadcast(event))
 	}
 }
