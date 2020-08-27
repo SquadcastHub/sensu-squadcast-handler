@@ -5,7 +5,7 @@
 ![goreleaser](https://github.com/SquadcastHub/sensu-squadcast-handler/workflows/goreleaser/badge.svg)
 
 The Sensu Go Squadcast handler is a [Sensu Event Handler][1] that sends event data to
-a Squadcast  endpoint.
+a Squadcast endpoint.
 
 ## Installation
 

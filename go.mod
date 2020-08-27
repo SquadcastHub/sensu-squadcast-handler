@@ -1,4 +1,4 @@
-module github.com/aahel/sensu-squadcast-handler
+module github.com/SquadcastHub/sensu-squadcast-handler
 
 go 1.14
 
