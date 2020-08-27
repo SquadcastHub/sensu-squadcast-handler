@@ -1,8 +1,8 @@
 # Sensu Squadcast Handler
 
-[![Bonsai Asset Badge](https://img.shields.io/badge/Sensu%20Squadcast%20Handler-Download%20Me-brightgreen.svg?colorB=89C967&logo=sensu)](https://bonsai.sensu.io/assets/sensu/sensu-squadcast-handler)
-![Go Test](https://github.com/sensu/sensu-squadcast-handler/workflows/Go%20Test/badge.svg)
-![goreleaser](https://github.com/sensu/sensu-squadcast-handler/workflows/goreleaser/badge.svg)
+[![Bonsai Asset Badge](https://img.shields.io/badge/Sensu%20Squadcast%20Handler-Download%20Me-brightgreen.svg?colorB=89C967&logo=sensu)](https://bonsai.sensu.io/assets/SquadcastHub/sensu-squadcast-handler)
+![Go Test](https://github.com/SquadcastHub/sensu-squadcast-handler/workflows/Go%20Test/badge.svg)
+![goreleaser](https://github.com/SquadcastHub/sensu-squadcast-handler/workflows/goreleaser/badge.svg)
 
 The Sensu Go Squadcast handler is a [Sensu Event Handler][1] that sends event data to
 a Squadcast  endpoint.
