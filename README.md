@@ -73,8 +73,10 @@ Usage:
 
 
 Flags:
-  -a, --api-url string   The URL for the Squadcast API
-  -h, --help             help for sensu-squadcast-handler
+  -a, --api-url string         The URL for the Squadcast API
+  -h, --help                   help for sensu-squadcast-handler
+  -e, --entity-id string       The template to use for the Entity ID (default "{{.Entity.Name}}/{{.Check.Name}}")
+  -s, --state-message string   The template to use for the state message (default "{{.Entity.Name}}:{{.Check.Name}}:{{.Check.Output}}")
 ```
 
 [1]: https://docs.sensu.io/sensu-go/5.0/reference/handlers/#how-do-sensu-handlers-work
