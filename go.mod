@@ -1,6 +1,6 @@
 module github.com/aahel/sensu-squadcast-handler
 
-go 1.13
+go 1.14
 
 require (
 	github.com/asaskevich/govalidator v0.0.0-20200818142706-50839af6027e
