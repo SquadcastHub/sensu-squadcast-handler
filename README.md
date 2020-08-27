@@ -7,21 +7,21 @@
 The Sensu Go Squadcast handler is a [Sensu Event Handler][1] that sends event data to
 a Squadcast endpoint.
 
-## Installation
-
-Create an executable script from this source.
-
-From the local path of the sensu-squadcast-handler repository:
-```
-go build -o /usr/local/bin/sensu-squadcast-handler
-```
-
 ## Configuration
+
+### Asset registration
+
+Run the following command to add the asset `sensu-squadcast-handler`.
+
+```shell
+sensuctl asset add SquadcastHub/sensu-squadcast-handler
+```
+
+### Handler definition
 
 Example Sensu Go handler definition:
 
-
-squadcast-handler.yaml
+**squadcast-handler.yaml**
 
 ```yaml
 type: Handler
@@ -32,14 +32,20 @@ metadata:
 spec:
   command: sensu-squadcast-handler
   env_vars:
-  - SENSU_SQUADCAST_APIURL= <Squadcast Alert Source Url>
+  - SENSU_SQUADCAST_APIURL=<Squadcast Alert Source Url>
+  runtime_assets:
+  - SquadcastHub/sensu-squadcast-handler
   filters:
   - is_incident
   timeout: 10
   type: pipe
 ```
 
-`sensuctl create -f squadcast-handler.yaml`
+Run the following to create the handler:
+
+```shell
+sensuctl create -f squadcast-handler.yaml
+```
 
 Example Sensu Go check definition:
 
@@ -57,24 +63,6 @@ spec:
   interval: 10
   handlers:
   - squadcast
-
-```
-
-## Usage examples
-
-Help:
-
-```
-The Sensu Go Squadcast handler sends Sensu events to Squadcast
-
-
-Usage:
-  sensu-squadcast-handler [flags]
-
-
-Flags:
-  -a, --api-url string   The URL for the Squadcast API
-  -h, --help             help for sensu-squadcast-handler
 ```
 
 [1]: https://docs.sensu.io/sensu-go/5.0/reference/handlers/#how-do-sensu-handlers-work
