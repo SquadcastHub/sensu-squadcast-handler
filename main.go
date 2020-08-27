@@ -9,13 +9,16 @@ import (
 
 	"github.com/asaskevich/govalidator"
 	"github.com/sensu-community/sensu-plugin-sdk/sensu"
+	"github.com/sensu-community/sensu-plugin-sdk/templates"
 	corev2 "github.com/sensu/sensu-go/api/core/v2"
 )
 
 // Config represents the handler plugin config.
 type Config struct {
 	sensu.PluginConfig
-	APIURL string
+	APIURL       string
+	StateMessage string
+	EntityID     string
 }
 
 // SQEvent is the JSON type for creating a Squadcast incident
@@ -29,7 +32,11 @@ type SQEvent struct {
 	Entity         *corev2.Entity `json:"entity,omitempty"`
 }
 
-const apiurl = "api-url"
+const (
+	apiurl       = "api-url"
+	statemessage = "state-message"
+	entityid     = "entity-id"
+)
 
 var (
 	plugin = Config{
@@ -47,8 +54,27 @@ var (
 			Argument:  apiurl,
 			Shorthand: "a",
 			Default:   "",
+			Secret:    true,
 			Usage:     "The URL for the Squadcast API",
 			Value:     &plugin.APIURL,
+		},
+		{
+			Path:      statemessage,
+			Env:       "SENSU_SQUADCAST_STATE_MESSAGE",
+			Argument:  statemessage,
+			Shorthand: "s",
+			Default:   "{{.Entity.Name}}:{{.Check.Name}}:{{.Check.Output}}",
+			Usage:     "The template to use for the state message",
+			Value:     &plugin.StateMessage,
+		},
+		{
+			Path:      entityid,
+			Env:       "SENSU_SQUADCAST_ENTITY_ID",
+			Argument:  entityid,
+			Shorthand: "e",
+			Default:   "{{.Entity.Name}}/{{.Check.Name}}",
+			Usage:     "The template to use for the Entity ID",
+			Value:     &plugin.EntityID,
 		},
 	}
 )
@@ -76,8 +102,14 @@ func SendEventToSquadcast(event *corev2.Event) error {
 	default:
 		msgType = "CRITICAL"
 	}
-	msgEntityID := fmt.Sprintf("%s/%s", event.Entity.Name, event.Check.Name)
-	msgStateMessage := fmt.Sprintf("%s:%s:%s", event.Entity.Name, event.Check.Name, event.Check.Output)
+	msgEntityID, err := templates.EvalTemplate("entityID", plugin.EntityID, event)
+	if err != nil {
+		return fmt.Errorf("failed to evaluate template %s: %v", plugin.EntityID, err)
+	}
+	msgStateMessage, err := templates.EvalTemplate("stateMessage", plugin.StateMessage, event)
+	if err != nil {
+		return fmt.Errorf("failed to evaluate template %s: %v", plugin.StateMessage, err)
+	}
 	sqEvent := SQEvent{
 		MessageType:    msgType,
 		StateMessage:   msgStateMessage,
