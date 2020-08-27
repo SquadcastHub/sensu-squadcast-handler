@@ -34,6 +34,9 @@ func TestSendEventToSquadcast(t *testing.T) {
 		{127, "CRITICAL"},
 	}
 
+	plugin.StateMessage = "{{.Entity.Name}}:{{.Check.Name}}:{{.Check.Output}}"
+	plugin.EntityID = "{{.Entity.Name}}/{{.Check.Name}}"
+
 	for _, tc := range testcases {
 		assert := assert.New(t)
 		event := corev2.FixtureEvent("entity1", "check1")
