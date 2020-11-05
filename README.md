@@ -5,7 +5,7 @@
 # Sensu Squadcast Handler
 
 The Sensu Go Squadcast handler is a [Sensu Event Handler][1] that sends event data to
-a Squadcast endpoint.
+a [Squadcast](https://www.squadcast.com/) endpoint. Refer [Squadcast documentation](https://support.squadcast.com/docs/sensu-go) for more details.
 
 ## Configuration
 
